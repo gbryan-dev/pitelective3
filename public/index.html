@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suicide & Depression Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/png" href="logo2.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-elevated: #1a1a25;
+            --accent-primary: #2e3192;
+            --accent-glow: #818cf8;
+            --accent-cyan: #f4d03f;
+            --danger: #ef4444;
+            --danger-glow: #f87171;
+            --warning: #f59e0b;
+            --success: #61E786;
+            --success-glow: #61E786;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(99, 102, 241, 0.2);
+            --glass-bg: rgba(18, 18, 26, 0.8);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(34, 211, 238, 0.08), transparent),
+                radial-gradient(ellipse 60% 40% at 0% 80%, rgba(139, 92, 246, 0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 40px;
+        }
+        
+        .navbar-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-brand i {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary) !important;
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Main Card */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Header */
+        .header-section {
+            position: relative;
+            padding: 60px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse, rgba(99, 102, 241, 0.2), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-primary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+
+            border: 2px solid white;
+            font-size: 2rem;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+            position: relative;
+        }
+        
+        .header-section h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        
+        .header-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .header-section .credit {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .header-section .credit span {
+            color: var(--danger);
+        }
+        
+        /* Alert */
+        .alert-warning-custom {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        
+        .alert-warning-custom i {
+            color: var(--warning);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .alert-warning-custom strong {
+            color: var(--warning);
+        }
+        
+        .alert-warning-custom p {
+            color: var(--text-secondary);
+            margin: 8px 0 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Input Section */
+        .input-section {
+            padding: 40px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-label i {
+            color: var(--accent-primary);
+        }
+        
+        .form-control {
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            resize: none;
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .form-control:focus {
+            background: var(--bg-elevated);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            color: var(--text-primary);
+        }
+        
+        /* Buttons */
+        .btn-analyze {
+            background: linear-gradient(135deg, var(--accent-primary), #2e3192);
+            border: none;
+            border-radius: 14px;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-analyze::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #8b5cf6, var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-analyze:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-analyze span, .btn-analyze i {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-analyze:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-random {
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .btn-random:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-random i {
+            margin-right: 8px;
+            color: var(--accent-cyan);
+        }
+        
+        /* Result Section */
+        .result-section {
+            padding: 40px;
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+        
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            color:white;
+        }
+        
+        .risk-icon {
+            font-size: 4rem;
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .icon-high { 
+            color: var(--danger); 
+            filter: drop-shadow(0 0 20px var(--danger-glow));
+        }
+        .icon-moderate { 
+            color: var(--warning); 
+            filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.5));
+        }
+        .icon-low { 
+            color: var(--success); 
+            filter: drop-shadow(0 0 20px var(--success-glow));
+        }
+        
+        .risk-badge {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 16px 0;
+        }
+        
+        .risk-high {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+        }
+        
+        .risk-moderate {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
+        }
+        
+        .risk-low {
+            background: linear-gradient(135deg, var(--success), #61E786);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
+        }
+        
+        #predictionText {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 16px;
+        }
+        
+        /* Confidence Meter */
+        .confidence-meter {
+            margin: 32px 0;
+        }
+        
+        .confidence-meter label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .confidence-meter label i {
+            color: var(--accent-cyan);
+        }
+        
+        .progress {
+            height: 12px;
+            border-radius: 100px;
+            background: var(--bg-dark);
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .progress-bar.bg-danger {
+            background: linear-gradient(90deg, var(--danger), var(--danger-glow)) !important;
+        }
+        
+        .progress-bar.bg-warning {
+            background: linear-gradient(90deg, var(--warning), #fbbf24) !important;
+        }
+        
+        .progress-bar.bg-success {
+            background: linear-gradient(90deg, var(--success), var(--success-glow)) !important;
+        }
+        
+        .confidence-value {
+            text-align: right;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            color: var(--text-primary);
+        }
+        
+        /* Crisis Box */
+        .crisis-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 28px;
+            border-radius: 20px;
+            margin: 28px 0;
+            text-align: center;
+        }
+        
+        .crisis-box h4 {
+            color: var(--danger-glow);
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+        
+        .crisis-contact {
+            background: rgba(239, 68, 68, 0.1);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 12px 0;
+        }
+        
+        .crisis-contact strong {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .crisis-contact p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .crisis-box > p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 16px;
+        }
+        
+        /* Original Text */
+        .original-text-section {
+            margin-top: 32px;
+            padding: 20px;
+            background: var(--bg-dark);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .original-text-section p.label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        #originalText {
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.6;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+        }
+        
+        .stats-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            padding: 24px 16px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+        
+        .stats-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stats-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Disclaimer Footer */
+        .disclaimer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 32px;
+        }
+        
+        .disclaimer p:first-child {
+            color: var(--warning);
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .disclaimer p:last-child {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .footer span {
+            color: var(--danger);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+        }
+        
+        .loading.show {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px 16px;
+            }
+            
+            .header-section {
+                padding: 40px 24px;
+            }
+            
+            .header-section h1 {
+                font-size: 1.75rem;
+            }
+            
+            .input-section, .result-section {
+                padding: 24px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .stats-card {
+                padding: 16px;
+            }
+            
+            .stats-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+
+         .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-brain"></i> Mental Health AI
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">
+                                <i class="fas fa-info-circle"></i> About
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Card -->
+        <div class="card">
+            <!-- Header -->
+            <div class="header-section">
+                <div class="header-icon">
+                    <i class="fas fa-heart-pulse" style="color:white;"></i>
+                </div>
+                <h1>Suicide & Depression Detection</h1>
+                <p>AI-powered mental health risk assessment using advanced machine learning</p>
+                <p class="credit">Created with <span>❤️</span> by Galamgam and Requinto</p>
+            </div>
+
+            <!-- Input Section -->
+            <div class="input-section">
+                <!-- Disclaimer -->
+                <div class="alert-warning-custom">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Important Disclaimer</strong>
+                        <p>This tool is for <strong>educational and research purposes only</strong>. It should NOT be used as a substitute for professional medical advice, diagnosis, or treatment. If you or someone you know is experiencing suicidal thoughts, please contact a mental health professional immediately.</p>
+                    </div>
+                </div>
+
+                <form id="analysisForm">
+                    <div class="mb-4">
+                        <label for="textInput" class="form-label">
+                            <i class="fas fa-pen-fancy"></i> What’s on your mind?
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            id="textInput" 
+                            rows="6" 
+                            placeholder="You can type or paste anything you’d like to share here. We’re here to listen."
+                            required
+                        ></textarea>
+                        
+                        <div class="text-center">
+                            <button type="button" class="btn btn-random" id="randomBtn">
+                                <i class="fas fa-shuffle"></i> Random Example
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-analyze" id="analyzeBtn">
+                        <i class="fas fa-spinner loading" id="loadingIcon"></i>
+                        <span id="btnText"><i class="fas fa-magnifying-glass-chart"></i> &nbsp;&nbsp;Analyze Text</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <h3 class="result-title">Analysis Result</h3>
+                
+                <div class="text-center">
+                    <div class="risk-icon" id="riskIcon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    
+                    <div class="risk-badge" id="riskBadge">
+                        LOW RISK
+                    </div>
+                    
+                    <p id="predictionText" style="display:none;"></p>
+                </div>
+                
+                <div class="confidence-meter" style="display:none;">
+                    <label>
+                        <i class="fas fa-chart-line"></i> Confidence Level
+                    </label>
+                    <div class="progress">
+                        <div class="progress-bar" id="confidenceBar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div class="confidence-value" id="confidenceValue">0%</div>
+                </div>
+
+                <!-- Crisis Resources (shown for high risk) -->
+                <div class="crisis-box" id="crisisBox" style="display: none;">
+                    <h4><i class="fas fa-phone-volume"></i> Immediate Help Available</h4>
+                    <div class="crisis-contact">
+                        <strong>988</strong>
+                        <p>National Suicide Prevention Lifeline</p>
+                    </div>
+                    <div class="crisis-contact">
+                        <strong>Text HOME to 741741</strong>
+                        <p>Crisis Text Line</p>
+                    </div>
+                    <p>These services are free, confidential, and available 24/7</p>
+                </div>
+                
+                <div class="original-text-section">
+                    <p class="label">Text</p>
+                    <p id="originalText"></p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <div class="stats-number" id="tokensCount">0</div>
+                        <div class="stats-label">Tokens Analyzed</div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number">93.15%</div>
+                        <div class="stats-label">Model Accuracy</div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number">232K</div>
+                        <div class="stats-label">Training Samples</div>
+                    </div>
+                </div>
+
+                 <p style="color:white;margin-top: 10px;text-align: center;font-size: 12px;color:gray;">Despite 93.15% accuracy, the model can still make mistakes. Some non-suicide content may be flagged, and some suicide-related content may be missed.</p>
+            </div>
+        </div>
+
+        <!-- Additional Disclaimer -->
+        <div class="disclaimer">
+            <p><i class="fas fa-shield-halved"></i> Educational Purpose Only</p>
+            <p>This is a machine learning project created for academic purposes. The predictions are based on text patterns and should never replace professional mental health evaluation. Always consult qualified healthcare providers for mental health concerns.</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Created with <span>❤️</span> by Galamgam and Requinto</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const riskConfig = {
+            'high': {
+                icon: 'fa-exclamation-triangle',
+                class: 'risk-high',
+                iconClass: 'icon-high',
+                message: 'High risk indicators detected. Please seek immediate help.'
+            },
+            'moderate': {
+                icon: 'fa-exclamation-circle',
+                class: 'risk-moderate',
+                iconClass: 'icon-moderate',
+                message: 'Moderate risk indicators detected. Please keep sharing, we are listening.'
+            },
+            'low': {
+                icon: 'fa-check-circle',
+                class: 'risk-low',
+                iconClass: 'icon-low',
+                message: 'Low risk indicators detected. It seems like you’re doing okay right now.'
+            }
+        };
+
+        // Random example texts
+       const exampleTexts = {
+    suicide: [
+        "I want to end my life, I can't take this anymore. Everything feels hopeless and I don't see a way out.",
+        "I feel worthless and nothing matters anymore. I wish I could just disappear and never wake up.",
+        "I hate myself and wish I was dead. Nobody would miss me if I was gone.",
+        "I can't do this anymore. I'm tired of fighting and I want it all to end. There's no point in living.",
+        "Every day is painful and I'm done. I've been thinking about suicide a lot lately and I'm ready to go.",
+        "I'm so alone and nobody cares. I feel like a burden to everyone. Maybe they'd be better off without me.",
+
+    ],
+
+    nonSuicide: [
+        "I am so happy with my new job and life is great! Looking forward to many exciting opportunities ahead.",
+        "Looking forward to spending time with my family this weekend. We're planning a fun picnic at the park.",
+        "Just got promoted at work, feeling blessed and grateful for all the support from my team!",
+        "Had an amazing day today! Went hiking with friends and the weather was perfect. Life is beautiful.",
+        "Started a new hobby and I'm loving it! Learning to paint has been such a therapeutic experience.",
+        "Feeling grateful for all the good things in my life. My friends and family mean the world to me.",
+
+    ]
+};
+
+
+        // Random example button
+        document.getElementById('randomBtn').addEventListener('click', function() {
+            const categories = ['suicide', 'nonSuicide'];
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            const texts = exampleTexts[randomCategory];
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            
+            document.getElementById('textInput').value = randomText;
+            
+            // Add a subtle animation
+            const textarea = document.getElementById('textInput');
+            textarea.style.transform = 'scale(1.02)';
+            textarea.style.transition = 'transform 0.2s';
+            setTimeout(() => {
+                textarea.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        // Form submission
+        document.getElementById('analysisForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const textInput = document.getElementById('textInput').value.trim();
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const loadingIcon = document.getElementById('loadingIcon');
+            const btnText = document.getElementById('btnText');
+            const resultSection = document.getElementById('resultSection');
+            
+            if (!textInput) {
+                alert('Please enter some text!');
+                return;
+            }
+            
+            // Show loading
+            analyzeBtn.disabled = true;
+            loadingIcon.classList.add('show');
+            btnText.textContent = 'Analyzing...';
+            resultSection.classList.remove('show');
+            
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: textInput })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult(data);
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to analyze text'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to server. Please try again.');
+            } finally {
+                // Hide loading
+                analyzeBtn.disabled = false;
+                loadingIcon.classList.remove('show');
+                btnText.innerHTML = '<i class="fas fa-magnifying-glass-chart"></i>  &nbsp;&nbsp;Analyze Text';
+            }
+        });
+
+        function displayResult(data) {
+            const riskLevel = data.riskLevel;
+            const prediction = data.prediction;
+            const config = riskConfig[riskLevel];
+            
+            // Update risk icon
+            const riskIcon = document.getElementById('riskIcon');
+            riskIcon.innerHTML = `<i class="fas ${config.icon} ${config.iconClass}"></i>`;
+            
+            // Update risk badge
+            if(riskLevel == 'low'){
+                const riskBadge = document.getElementById('riskBadge');
+                riskBadge.textContent ='It seems like you’re doing okay right now.';
+                riskBadge.style.color = 'white';
+            }
+
+            if(riskLevel == 'moderate'){
+                const riskBadge = document.getElementById('riskBadge');
+                riskBadge.textContent ='Please keep sharing, we are listening.';
+                riskBadge.style.color = 'white';
+            }
+
+              if(riskLevel == 'high'){
+                const riskBadge = document.getElementById('riskBadge');
+                riskBadge.textContent ='Please seek immediate help!!';
+                riskBadge.style.color = 'white';
+            }
+
+
+            
+                riskBadge.className = 'risk-badge ' + config.class;
+
+            // Update prediction text
+            const predictionText = document.getElementById('predictionText');
+            predictionText.textContent = `Classification: ${prediction.toUpperCase()} — ${config.message}`;
+            
+            // Update confidence bar
+            const confidence = (data.confidence * 100).toFixed(0);
+            const confidenceBar = document.getElementById('confidenceBar');
+            const confidenceValue = document.getElementById('confidenceValue');
+            setTimeout(() => {
+                confidenceBar.style.width = confidence + '%';
+                confidenceValue.textContent = confidence + '%';
+                confidenceBar.className = 'progress-bar ' + getProgressBarClass(riskLevel);
+            }, 100);
+            
+            // Show/hide crisis box
+            const crisisBox = document.getElementById('crisisBox');
+            if (riskLevel === 'high') {
+                crisisBox.style.display = 'block';
+            } else {
+                crisisBox.style.display = 'none';
+            }
+            
+            // Update original text
+            document.getElementById('originalText').textContent = data.originalText;
+            
+            // Update tokens count
+            document.getElementById('tokensCount').textContent = data.tokensProcessed || 0;
+            
+            // Show result section
+            document.getElementById('resultSection').classList.add('show');
+            
+            // Scroll to result
+            setTimeout(() => {
+                document.getElementById('resultSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 200);
+        }
+
+        function getProgressBarClass(riskLevel) {
+            if (riskLevel === 'high') return 'bg-danger';
+            if (riskLevel === 'moderate') return 'bg-warning';
+            return 'bg-success';
+        }
+    </script>
+</body>
+</html>

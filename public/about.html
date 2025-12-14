@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Suicide & Depression Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-elevated: #1a1a25;
+            --accent-primary: #2e3192;
+            --accent-glow: #818cf8;
+            --accent-cyan: #f4d03f;
+            --danger: #ef4444;
+            --danger-glow: #f87171;
+            --warning: #f59e0b;
+            --success: #61E786;
+            --success-glow: #61E786;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(99, 102, 241, 0.2);
+            --glass-bg: rgba(18, 18, 26, 0.8);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(34, 211, 238, 0.08), transparent),
+                radial-gradient(ellipse 60% 40% at 0% 80%, rgba(139, 92, 246, 0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 40px;
+        }
+        
+        .navbar-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-brand i {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary) !important;
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .navbar-toggler {
+            border: 1px solid var(--border-color);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        /* Page Header */
+        .page-header {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 32px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse, rgba(99, 102, 241, 0.2), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-primary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+
+            border: 2px solid white;
+            font-size: 2rem;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+            position: relative;
+        }
+        
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            position: relative;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card-body {
+            padding: 32px;
+        }
+        
+        /* Section Title */
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 28px;
+            border-radius: 20px;
+            color: var(--text-primary);
+        }
+        
+        .warning-box h4 {
+            color: var(--danger-glow);
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .warning-box p {
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.7;
+        }
+        
+        .warning-box p strong {
+            color: var(--text-primary);
+        }
+        
+        /* Lead Text */
+        .lead {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* Metric Cards */
+        .metric-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary));
+            color: white;
+            padding: 28px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        .metric-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value i {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+        
+        .metric-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        /* List Group */
+        .list-group {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .list-group-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 16px 20px;
+        }
+        
+        .list-group-item span {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        /* Class Tags */
+        .class-tag {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 100px;
+            margin: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .tag-suicide {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.25);
+        }
+        
+        .tag-non-suicide {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+        }
+        
+        /* Alert Info */
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            color: var(--text-primary);
+        }
+        
+        .alert-info strong {
+            color: var(--accent-glow);
+        }
+        
+        .alert-info p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        /* Step Cards */
+        .step-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            border-left-color: var(--accent-cyan);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .step-number {
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            color: white;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 14px;
+            font-size: 0.9rem;
+        }
+        
+        .step-card strong {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+        
+        .step-card p {
+            color: var(--text-secondary);
+            margin: 12px 0 0 50px;
+            line-height: 1.6;
+        }
+        
+        /* Table */
+        .table {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-primary));
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 16px;
+        }
+        
+        .table tbody td {
+            background: var(--bg-elevated);
+            border-color: var(--border-color);
+            padding: 14px 16px;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .best-model td {
+            background: rgba(16, 185, 129, 0.15) !important;
+            font-weight: 600;
+            color:white;
+        }
+
+        .notbest-model td {
+            background: rgba(16, 185, 129, 0.15) !important;
+            font-weight: 400;
+            color:grey;
+        }
+        
+        .text-warning {
+            color: var(--warning) !important;
+        }
+        
+        /* Alert Success */
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            color: var(--text-primary);
+        }
+        
+        .alert-success h5 {
+            color: var(--success-glow);
+            margin-bottom: 12px;
+        }
+        
+        .alert-success p {
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.7;
+        }
+        
+        /* Performance Bars */
+        .performance-bar {
+            margin-bottom: 20px;
+        }
+        
+        .performance-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        
+        .progress {
+            height: 14px;
+            border-radius: 100px;
+            background: var(--bg-dark);
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            border-radius: 100px;
+            font-size: 0;
+        }
+        
+        .progress-bar.bg-success {
+            background: linear-gradient(90deg, var(--success), var(--success-glow)) !important;
+        }
+        
+        .progress-bar.bg-danger {
+            background: linear-gradient(90deg, var(--danger), var(--danger-glow)) !important;
+        }
+        
+        /* Confusion Matrix Table */
+        .table-bordered {
+            border-color: var(--border-color);
+        }
+        
+        .table-bordered th, .table-bordered td {
+            border-color: var(--border-color);
+        }
+        
+        .table .bg-success {
+            background: rgba(16, 185, 129, 0.3) !important;
+        }
+        
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Tech Badges */
+        .tech-badge {
+            display: inline-block;
+            padding: 12px 20px;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin: 6px;
+            font-weight: 600;
+            color: var(--accent-glow);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            border-color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Disclaimer Box */
+        .disclaimer-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 28px;
+            border-radius: 20px;
+        }
+        
+        .disclaimer-box h5 {
+            color: var(--warning);
+            margin-bottom: 16px;
+        }
+        
+        .disclaimer-box ul {
+            color: var(--text-secondary);
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .disclaimer-box li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .disclaimer-box li strong {
+            color: var(--text-primary);
+        }
+        
+        /* Alert Primary */
+        .alert-primary {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            color: var(--text-primary);
+        }
+        
+        .alert-primary h5 {
+            color: var(--accent-glow);
+            margin-bottom: 16px;
+        }
+        
+        .alert-primary p {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .alert-primary p strong {
+            color: var(--text-primary);
+        }
+        
+        /* Crisis Resources */
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .alert-danger h5 {
+            color: var(--danger-glow);
+            margin-bottom: 8px;
+        }
+        
+        .alert-danger p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .alert-warning h5 {
+            color: var(--warning);
+            margin-bottom: 8px;
+        }
+        
+        .alert-warning p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .crisis-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 15px 0;
+        }
+        
+        .crisis-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 15px 0;
+        }
+        
+        .alert-info-resource {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .alert-info-resource h5 {
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+        
+        .alert-info-resource a {
+            color: var(--accent-glow);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .alert-info-resource a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-muted);
+        }
+        
+        .footer i {
+            color: var(--accent-primary);
+        }
+        
+        /* Paragraphs */
+        p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        h5 i {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+        
+        ol, ul {
+            color: var(--text-secondary);
+        }
+        
+        ol li, ul li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        ol li strong, ul li strong {
+            color: var(--text-primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 40px 24px;
+            }
+            
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .card-body {
+                padding: 24px;
+            }
+            
+            .metric-card {
+                margin-bottom: 16px;
+            }
+            
+            .metric-value {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+            }
+            
+            .class-tag {
+                display: block;
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-brain"></i> Mental Health AI
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/about">
+                                <i class="fas fa-info-circle"></i> About
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h1>About Our Project</h1>
+            <p>Suicide & Depression Detection using Machine Learning</p>
+        </div>
+
+        <!-- Important Warning -->
+        <div class="card">
+            <div class="card-body">
+                <div class="warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Critical Disclaimer</h4>
+                    <p><strong>This system is for EDUCATIONAL AND RESEARCH PURPOSES ONLY.</strong></p>
+                    <p style="margin-top: 12px;">This tool should NEVER be used as a substitute for professional mental health assessment, diagnosis, or treatment. If you or someone you know is experiencing suicidal thoughts or mental health crisis, please contact a qualified mental health professional.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-project-diagram"></i> Project Overview</h2>
+                <p class="lead">
+                    We developed an advanced machine learning system that analyzes text to identify potential indicators of suicidal ideation and depression. Our system uses Natural Language Processing (NLP) and applied TF-IDF vectorization to classify text into two categories: suicide-related and non-suicide-related content, achieving high accuracy through rigorous training and validation.
+                </p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-3 col-6">
+                        <div class="metric-card">
+                            <div class="metric-value"><i class="fas fa-chart-line"></i>93.15%</div>
+                            <div class="metric-label">Model Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="metric-card">
+                            <div class="metric-value"><i class="fas fa-database"></i>232K</div>
+                            <div class="metric-label">Total Samples</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="metric-card">
+                            <div class="metric-value"><i class="fas fa-balance-scale"></i>50/50</div>
+                            <div class="metric-label">Balanced Dataset</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="metric-card">
+                            <div class="metric-value"><i class="fas fa-layer-group"></i>2</div>
+                            <div class="metric-label">Classes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dataset Information -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-table"></i> Dataset Information</h2>
+                <p>
+                    We utilized a comprehensive suicide and depression detection dataset containing real-world text data. The dataset was carefully curated and preprocessed to ensure high-quality training data while maintaining ethical standards and privacy considerations.
+                </p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-info-circle"></i> Dataset Statistics</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Total Samples:</strong> <span>232,074</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Training Set:</strong> <span>185,659 (80%)</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Testing Set:</strong> <span>46,415 (20%)</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Vocabulary Size:</strong> <span>5,000 features</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Average Tokens:</strong> <span>130.24 per text</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>After Normalization:</strong> <span>61.26 tokens</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-chart-pie"></i> Class Distribution</h5>
+                        <div class="mt-3">
+                            <span class="class-tag tag-suicide">
+                                <i class="fas fa-exclamation-circle"></i> SUICIDE (116,037 - 50%)
+                            </span>
+                            <span class="class-tag tag-non-suicide">
+                                <i class="fas fa-check-circle"></i> NON-SUICIDE (116,037 - 50%)
+                            </span>
+                        </div>
+                        <div class="alert alert-info mt-4">
+                            <strong><i class="fas fa-balance-scale"></i> Perfectly Balanced Dataset</strong>
+                            <p class="mt-2">Our dataset contains exactly 50% suicide-related and 50% non-suicide-related content, ensuring unbiased model training and preventing class imbalance issues.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-cogs"></i> Our Methodology</h2>
+                
+                <h5 class="mt-4 mb-3"><i class="fas fa-broom"></i> Text Normalization Process</h5>
+                <p>We implemented a comprehensive text preprocessing pipeline to clean and standardize the data:</p>
+                
+                <div class="step-card">
+                    <span class="step-number">1</span>
+                    <strong>Data Cleaning</strong>
+                    <p>Removed missing values, duplicate entries, and special characters. Converted all text to lowercase and standardized formatting for consistency.</p>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-number">2</span>
+                    <strong>Tokenization</strong>
+                    <p>Split text into individual words (tokens) using NLTK's word tokenizer. Average of 130 tokens per text before processing.</p>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-number">3</span>
+                    <strong>Stop Words Removal</strong>
+                    <p>Eliminated common words (e.g., "the", "is", "at") that don't contribute meaningful information to mental health assessment.</p>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-number">4</span>
+                    <strong>Text Normalization</strong>
+                    <p>Filtered tokens with length > 2 characters. Reduced average tokens from 130 to 61, focusing on psychologically significant words.</p>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-number">5</span>
+                    <strong>Feature Extraction (TF-IDF)</strong>
+                    <p>Applied Term Frequency-Inverse Document Frequency (TF-IDF) vectorization with 5,000 features, bigrams, and frequency filtering (min_df=2, max_df=0.8) to convert text into numerical representations.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Comparison -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-trophy"></i> Model Performance Comparison</h2>
+                <p>We trained and evaluated 5 different machine learning algorithms to identify the best performer:</p>
+                
+                <div class="table-responsive mt-4">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Model</th>
+                                <th>Accuracy</th>
+                                <th>Precision</th>
+                                <th>Recall</th>
+                                <th>F1-Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="best-model">
+                                <td><i class="fas fa-crown text-warning"></i> 1</td>
+                                <td><strong>SVM</strong></td>
+                                <td><strong>93.15%</strong></td>
+                                <td><strong>93.18%</strong></td>
+                                <td><strong>93.15%</strong></td>
+                                <td><strong>93.15%</strong></td>
+                            </tr>
+                            <tr class="notbest-model">
+                                <td>2</td>
+                                <td>Logistic Regression</td>
+                                <td>93.08%</td>
+                                <td>93.08%</td>
+                                <td>93.08%</td>
+                                <td>93.08%</td>
+                            </tr>
+                            <tr class="notbest-model">
+                                <td>3</td>
+                                <td>Random Forest</td>
+                                <td>90.10%</td>
+                                <td>90.10%</td>
+                                <td>90.10%</td>
+                                <td>90.10%</td>
+                            </tr>
+                            <tr class="notbest-model">
+                                <td>4</td>
+                                <td>Naive Bayes</td>
+                                <td>90.03%</td>
+                                <td>90.03%</td>
+                                <td>90.03%</td>
+                                <td>90.03%</td>
+                            </tr>
+                            <tr class="notbest-model">
+                                <td>5</td>
+                                <td>Gradient Boosting</td>
+                                <td>87.82%</td>
+                                <td>87.82%</td>
+                                <td>87.82%</td>
+                                <td>87.82%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-success mt-4">
+                    <h5><i class="fas fa-check-circle"></i> Selected Model: Support Vector Machine (SVM)</h5>
+                    <p>
+                        We selected <strong>SVM</strong> as our final model due to its exceptional accuracy of 93.15%. 
+                        SVM excels at text classification by finding the optimal decision boundary (hyperplane) that maximally separates 
+                        suicide-related and non-suicide-related content in high-dimensional feature space. The kernel proved most 
+                        effective for our TF-IDF features, providing both high accuracy and computational efficiency.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-chart-bar"></i> Detailed Performance Metrics</h2>
+                <p>Our best model (SVM) achieved excellent balanced performance across both classes:</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-bullseye"></i> Class-wise Performance</h5>
+                        <div class="performance-bar">
+                            <div class="performance-label">Non-Suicide Precision</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 92%"></div>
+                            </div>
+                            <small class="text-muted">92.4%</small>
+                        </div>
+                        <div class="performance-bar">
+                            <div class="performance-label">Suicide Precision</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" style="width: 94%"></div>
+                            </div>
+                            <small class="text-muted">93.9%</small>
+                        </div>
+                        <div class="performance-bar">
+                            <div class="performance-label">Non-Suicide Recall</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 94%"></div>
+                            </div>
+                            <small class="text-muted">94.0%</small>
+                        </div>
+                        <div class="performance-bar">
+                            <div class="performance-label">Suicide Recall</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" style="width: 92%"></div>
+                            </div>
+                            <small class="text-muted">92.3%</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-table"></i> Confusion Matrix</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" rowspan="2"></th>
+                                        <th colspan="2">Predicted</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Non-Suicide</th>
+                                        <th>Suicide</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th rowspan="2">Actual</th>
+                                        <th>Non-Suicide</th>
+                                        <td class="bg-success text-white"><strong>21,821</strong></td>
+                                        <td style="color:white;">1,387</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Suicide</th>
+                                        <td style="color:white;">1,791</td>
+                                        <td class="bg-success text-white"><strong>21,416</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-muted small mt-2">Green cells show correct predictions. Our model correctly identified 43,237 out of 46,415 test samples.</p>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <h6><i class="fas fa-info-circle"></i> Understanding the Metrics</h6>
+                    <ul class="mb-0" style="padding-left: 20px;">
+                        <li><strong>Accuracy (93.15%):</strong> Overall correctness of predictions across all samples</li>
+                        <li><strong>Precision:</strong> When we predict a class, how often are we correct?</li>
+                        <li><strong>Recall:</strong> Of all actual instances of a class, how many did we correctly identify?</li>
+                        <li><strong>F1-Score:</strong> Harmonic mean balancing precision and recall (93.09% average)</li>
+                        <li><strong>Balanced Performance:</strong> Model performs equally well on both suicide and non-suicide classes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-laptop-code"></i> Technology Stack</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="fab fa-python"></i> Machine Learning & Training</h5>
+                        <div class="mt-3">
+                            <span class="tech-badge">Python 3.12</span>
+                            <span class="tech-badge">Scikit-learn</span>
+                            <span class="tech-badge">Pandas</span>
+                            <span class="tech-badge">NumPy</span>
+                            <span class="tech-badge">NLTK</span>
+                            <span class="tech-badge">Google Colab</span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-server"></i> Web Application</h5>
+                        <div class="mt-3">
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">Express.js</span>
+                            <span class="tech-badge">Bootstrap 5</span>
+                            <span class="tech-badge">JavaScript ES6+</span>
+                            <span class="tech-badge">HTML5 & CSS3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-question-circle"></i> How It Works</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-brain"></i> Behind the Scenes</h5>
+                        <ol class="mt-3">
+                            <li><strong>Text Input:</strong> User enters text for analysis through the web interface.</li>
+                            <li><strong>Preprocessing:</strong> Text is cleaned, tokenized, and stop words are removed.</li>
+                            <li><strong>Feature Extraction:</strong> TF-IDF vectorization converts text into numerical features (5,000-dimensional vector).</li>
+                            <li><strong>Classification:</strong> SVM model analyzes the feature vector and predicts the class.</li>
+                            <li><strong>Risk Assessment:</strong> Based on prediction and confidence, a risk level (low/moderate/high) is assigned.</li>
+                            <li><strong>Results Display:</strong> Prediction, confidence score, and appropriate resources are shown to the user.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-shield-alt"></i> Ethical Considerations</h5>
+                        <p class="mt-3">We developed this system with careful attention to ethical implications:</p>
+                        <ul>
+                            <li><strong>Educational Purpose:</strong> Designed solely for learning about ML and NLP, not for clinical use</li>
+                            <li><strong>Clear Disclaimers:</strong> Prominent warnings that this is not a diagnostic tool</li>
+                            <li><strong>Crisis Resources:</strong> Always provide immediate access to professional help resources</li>
+                            <li><strong>Privacy:</strong> No data storage or logging of user inputs</li>
+                            <li><strong>Transparency:</strong> Full disclosure of model limitations and accuracy</li>
+                            <li><strong>Responsible Deployment:</strong> Emphasis on the need for human oversight and professional consultation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Limitations -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i> Limitations & Important Notes</h2>
+                
+                <div class="disclaimer-box">
+                    <h5><strong><i class="fas fa-info-circle"></i> Understanding the Limitations</strong></h5>
+                    <ul>
+                        <li><strong>Not a Diagnostic Tool:</strong> This system cannot diagnose mental health conditions and should never be used for that purpose.</li>
+                        <li><strong>Text-Only Analysis:</strong> Mental health assessment requires comprehensive evaluation including tone, context, history, and professional judgment.</li>
+                        <li><strong>False Positives/Negatives:</strong> Despite 93.15% accuracy, the model can make mistakes. Some non-suicide content may be flagged, and some suicide-related content may be missed.</li>
+                        <li><strong>Cultural and Linguistic Limitations:</strong> Model trained primarily on English text and may not capture cultural nuances in expression.</li>
+                        <li><strong>Context Matters:</strong> The system analyzes text patterns without understanding full context, relationships, or individual circumstances.</li>
+                        <li><strong>No Substitute for Professional Help:</strong> Always consult qualified mental health professionals for assessment and treatment.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-users"></i> Our Team</h2>
+                <p>
+                    This project was developed as our final project for the Elective 3 course. 
+                    We worked collaboratively through all phases: dataset selection, preprocessing, model training, evaluation, 
+                    and web application development. Our goal was to apply machine learning techniques to a socially important 
+                    problem while understanding the ethical responsibilities involved.
+                </p>
+                
+                <div class="alert alert-primary mt-4">
+                    <h5><i class="fas fa-graduation-cap"></i> Academic Project Information</h5>
+                    <p><strong>Course:</strong> Text Classification and Natural Language Processing</p>
+                    <p><strong>Project Type:</strong> Final Project</p>
+                    <p><strong>Team Members:</strong> Galamgam and Requinto</p>
+                    <p class="mb-0"><strong>Dataset:</strong> Suicide and Depression Detection (232,074 samples)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crisis Resources -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title"><i class="fas fa-life-ring"></i> Crisis Resources</h2>
+                <p>If you or someone you know needs immediate help:</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="alert-danger">
+                            <h5><strong>National Suicide Prevention Lifeline</strong></h5>
+                            <div class="crisis-number">988</div>
+                            <p>Available 24/7 - Free & Confidential</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert-warning">
+                            <h5><strong>Crisis Text Line</strong></h5>
+                            <div class="crisis-text">Text HOME to 741741</div>
+                            <br>
+                            <p>24/7 Support via Text</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert-info-resource">
+                            <h5><strong>International</strong></h5>
+                            <div style="margin: 15px 0;">
+                                <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">
+                                    <i class="fas fa-globe"></i> Find Crisis Centers Worldwide
+                                </a>
+                            </div>
+                            <br>
+                            <p>IASP Resources</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+           
+            <p style="font-size: 0.85rem; margin-top: 8px;">
+                Created with <span style="color: var(--danger);">❤</span> by Galamgam and Requinto
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "model_name": "SVM",
+  "accuracy": 0.9315307551438112,
+  "vocabulary_size": 5000,
+  "classes": {
+    "0": "non-suicide",
+    "1": "suicide"
+  },
+  "training_samples": 185659,
+  "testing_samples": 46415,
+  "total_samples": 232074,
+  "class_distribution": {
+    "suicide": 92830,
+    "non-suicide": 92829
+  }
+}
